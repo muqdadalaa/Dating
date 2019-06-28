@@ -1,4 +1,4 @@
-<form [formGroup]="registerForm" (ngSubmit)="register()">
+<form [hidden]="authService.siteLang=='ar'" [dir]="authService.dir" [formGroup]="registerForm" (ngSubmit)="register()">
   <h2 class="text-center text-primary">Sign Up</h2>
   <hr>
 
@@ -94,7 +94,78 @@
 
   <div class="form-group text-center">
     <button class="btn btn-success" [disabled]="!registerForm.valid" type="submit">Register</button>
-    <button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>
+    <button class="btn btn-danger ml-2" type="button" (click)="cancel()">Cancel</button>
   </div>
   
 </form>
+
+
+<form [hidden]="authService.siteLang=='en'"  [dir]="authService.dir" (ngSubmit)="register()" [formGroup]="registerForm" class="rtl">
+    <h3 class="text-center text-primary">  سجل الان </h3>
+    <hr>
+    <div class="form-group">
+        <label class="ml-2 control-label" style="margin-right:10px">انا : </label>
+        <label class="radio-inline">
+          <input class="ml-3" type="radio" value="male" formControlName="gender">ذكر
+        </label>
+        <label class="radio-inline mr-3">
+          <input class="ml-3" type="radio" value="female" formControlName="gender">انثى
+        </label>
+      </div>
+    <div class="form-group">
+      <input formControlName="username" type="text" [ngClass]="{'is-invalid' : registerForm.get('username').errors && registerForm.get('username').touched}"
+        class=" form-control" placeholder="إسم المشترك">
+      <div class="invalid-feedback"> أدخل إسمك</div>
+    </div>
+    <div class="form-group">
+      <input [ngClass]="{'is-invalid': registerForm.get('knownAs').errors && registerForm.get('knownAs').touched}" class="form-control"
+        placeholder="إسم الشهرة" formControlName="knownAs">
+      <div class="invalid-feedback" *ngIf="registerForm.get('knownAs').touched && registerForm.get('knownAs').hasError('required')">أدخل
+        إسم الشهرة</div>
+    </div>
+    <div class="form-group">
+      <input [ngClass]="{'is-invalid': registerForm.get('dateOfBirth').errors && registerForm.get('dateOfBirth').touched}"
+        class="form-control" placeholder="تاريخ الميلاد" formControlName="dateOfBirth" type="text" bsDatepicker [bsConfig]="bsConfig" >
+      <div class="invalid-feedback" *ngIf="registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')">أدخل
+        تاريخ ميلادك</div>
+    </div>
+    <div class="form-group">
+      <input [ngClass]="{'is-invalid': registerForm.get('city').errors && registerForm.get('city').touched}" class="form-control"
+        placeholder="المدينة" formControlName="city">
+      <div class="invalid-feedback" *ngIf="registerForm.get('city').touched && registerForm.get('city').hasError('required')">أدخل
+        إسم مدينتك</div>
+    </div>
+    <div class="form-group">
+      <input [ngClass]="{'is-invalid': registerForm.get('country').errors && registerForm.get('country').touched}" class="form-control"
+        placeholder="البلد" formControlName="country">
+      <div class="invalid-feedback" *ngIf="registerForm.get('country').touched && registerForm.get('country').hasError('required')">أدخل
+        إسم بلدك</div>
+    </div>
+    <div class="form-group">
+      <input formControlName="password" type="password" [ngClass]="{'is-invalid' : registerForm.get('password').errors && registerForm.get('password').touched}"
+        class="form-control" placeholder="كلمة السر">
+      <div *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched" class="invalid-feedback">
+        أدخل كلمة السر</div>
+      <div *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched" class="invalid-feedback">
+        يجب أن لا تقل كلمة السر عن أربعة خانات</div>
+      <div *ngIf="registerForm.get('password').hasError('maxlength') && registerForm.get('password').touched" class="invalid-feedback">
+        يجب أن لا تزيد كلمة السر عن ثمان خانات</div>
+    </div>
+    <div class="form-group">
+      <input formControlName="confirmPassword" type="password" [ngClass]="{'is-invalid' : registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched || registerForm.get('confirmPassword').touched && registerForm.hasError('mismatch')}"
+        class="form-control" placeholder="تأكيد كلمة السر">
+      <div class="invalid-feedback" *ngIf="registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched">
+        أدخل كلمة السر مرة أخرى</div>
+      <div class="invalid-feedback" *ngIf="registerForm.hasError('mismatch') && registerForm.get('confirmPassword').touched">
+        لا تطابق كلمة السر</div>
+    </div>
+  
+  
+  
+    <div class="form-group text-center">
+        <button class="btn btn-success ml-2" [disabled]="!registerForm.valid" type="submit">اشترك</button>
+        <button class="btn btn-danger " type="button" (click)="cancel()">ليس الأن</button>
+      </div>
+  
+  </form>
+  

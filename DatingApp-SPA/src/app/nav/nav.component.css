@@ -7,3 +7,29 @@ img {
     border: 2px solid white;
     display: inline;
 }
+
+.rounded-circle{
+  max-width: 50px;
+  max-height: 50px
+}
+
+
+.notification {
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    border-radius: 2px;
+  }
+  .notification .badge {
+    position: absolute;
+    top: 2px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    color: #333333;
+    font-size: 16px;
+    font-family: 'tajawal';
+  }
+
+  .nav-item{
+    font-weight: bolder;
+  }

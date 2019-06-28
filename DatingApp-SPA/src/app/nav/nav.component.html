@@ -1,22 +1,26 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+<nav [dir]="authService.dir" class="navbar navbar-expand-md navbar-dark bg-primary">
   <div class="container">
+    <div class="row">
     <a class="navbar-brand" [routerLink]="['/home']">Dating App</a>
-
     <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/members']">Matches</a>
+        <a lang class="nav-link" [routerLink]="['/members']">Matches</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/lists']">Lists</a>
+        <a lang class="nav-link" [routerLink]="['/lists']">Like</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/messages']">Messages</a>
+        <a lang class="nav-link notification" [routerLink]="['/messages']" routerLinkActive="active">Messages<span *ngIf="count!=='0'" class="badge badge-warning"> {{count}} </span></a>
+      </li>
+      <li *appHasRole="['Admin','Moderator']" class="nav-item" routerLinkActive="active">
+        <a lang class="nav-link" [routerLink]="['/admin']">Admin</a>
       </li>
     </ul>
+  </div>
 
-    <div *ngIf="loggedIn()" class="dropdown" dropdown>
+    <div [hidden]="authService.siteLang=='ar'" *ngIf="loggedIn()" class="dropdown" dropdown>
       <span class="mr-1">
-        <img src="{{photoUrl || '../../assets/user.png'}}" alt="">
+        <img class="rounded-circle" src="{{photoUrl || '../../assets/user.png'}}" alt="">
       </span>
       <a class="dropdown-toggle text-light" dropdownToggle>
         Welcome {{authService.decodedToken?.unique_name | titlecase}}
@@ -31,12 +35,38 @@
       </div>
     </div>
 
-    <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+    <div [hidden]="authService.siteLang=='en'" *ngIf="loggedIn()" class="dropdown" dropdown>
+      <span class="mr-1">
+        <img class="rounded-circle" src="{{photoUrl || '../../assets/user.png'}}" alt="">
+      </span>
+      <a class="dropdown-toggle text-light" dropdownToggle>
+        مرحبا بك {{authService.currentUser?.knownAs}}
+      </a>
+
+      <div class="dropdown-menu mt-3" *dropdownMenu>
+        <a class="dropdown-item" [routerLink]="['/member/edit']">
+          <i class="fa fa-user"></i> تعديل الملف الشخصي </a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()">
+          <i class="fa fa-sign-out"></i> تسجيل الخروج</a>
+      </div>
+    </div>
+
+    <form [hidden]="authService.siteLang=='ar'" *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
       <input class="form-control mr-sm-2" type="text" name="username" placeholder="Username" required [(ngModel)]="model.username">
       <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="model.password">
-      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+      <button lang [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+    </form>
+
+    <form [hidden]="authService.siteLang=='en'" *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+      <input class="form-control mr-sm-2" type="text" name="username" placeholder="اسم المشترك" required [(ngModel)]="model.username">
+      <input class="form-control mr-sm-2" type="password" name="password" placeholder="كلمة السر" required [(ngModel)]="model.password">
+      <button lang [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
     </form>
   </div>
 
+<button [hidden]="authService.siteLang=='en'" (click)="en();" class="btn btn-warning ml-auto" >English</button>
+
+<button [hidden]="authService.siteLang=='ar'" (click)="ar();" class="btn btn-warning ml-auto" >عربي</button>
 
 </nav>
