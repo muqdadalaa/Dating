@@ -1,10 +1,31 @@
-<div class="container mt-5">
+<div [hidden]="authService.siteLang=='ar'" class="container mt-5">
+  <div *ngIf="!registerMode" style="text-align: center">
+    <h1>Find your match</h1>
+    <p class="lead">Come on in to view your matches... All you need to do is sign up!</p>
+    <div class="text-center">
+      <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">Register</button>
+      <button class="btn btn-info btn-lg">Learn more</button>
+    </div>
+  </div>
+
+  <div *ngIf="registerMode" class="container">
+    <div class="row justify-content-center">
+      <div class="col-4">
+        <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div [hidden]="authService.siteLang=='en'" class="container mt-5">
     <div *ngIf="!registerMode" style="text-align: center">
-      <h1>Find your match</h1>
-      <p class="lead">Come on in to view your matches ... All you need to do is sign up!</p>
+      <h1>العثور على شريك الحياة</h1>
+      <p class="lead">!تعال لمشاهدة شركائك ... كل ما عليك فعله هو التسجيل</p>
       <div class="text-center">
-        <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">Register</button>
-        <button class="btn btn-info btn-lg">Learn more</button>
+        <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">سجل</button>
+        <button class="btn btn-info btn-lg">اقرأ المزيد</button>
       </div>
     </div>
   
