@@ -8,7 +8,7 @@
   <h4 *ngIf="pagination.totalItems==0" [ngStyle]="{'font-family':authService.dir==='rtl'?'Droid-Arabic-Kufi':'Impact','font-weight':authService.dir==='rtl'?'bolder':'normal'}"><span lang>لا يوجد إقتراحات مناسبة</span> </h4>
   </div>
   <div [dir]="authService.dir" class="container mt-3">
-    <form [dir]="authService.dir" form="ngForm" (ngSubmit)="search=false;loadUsers();" class="form-inline" novalidate>
+    <form [dir]="authService.dir" form="ngForm" (ngSubmit)="loadUsers();" class="form-inline" novalidate>
       <div class="form-group">
         <label lang for="minAge">العمر الأدنى </label>
         <input type="number" [(ngModel)]="userParams.minAge" class="form-control mr-2 ml-2" style="width: 70px" id="minAge"
@@ -30,7 +30,7 @@
         </select>
       </div>
       <button lang type="submit" style="font-family:'JF FLAT'" class="btn btn-dark btn-small ml-2 mr-2">بحث</button>
-      <button lang type="button" style="font-family:'JF FLAT'" (click)="search=false;resetFilters();" class="btn btn-dark btn-small ml-2 mr-2">إستعادة</button>
+      <button lang type="button" style="font-family:'JF FLAT'" (click)="resetFilters();" class="btn btn-dark btn-small ml-2 mr-2">إستعادة</button>
       <div class="col" >
         <div [ngClass]="authService.dir=='rtl'?'float-left':'float-right'" class="btn-group-vertical">
           <button lang type="button" [(ngModel)]="userParams.orderBy" btnRadio="lastActive" (click)="loadUsers();" name="orderBy" class="btn mb-1 ajs-button btn-up" [ngStyle]="{'background':userParams.orderBy==='lastActive'?'red' : ''}" >الأحدث ظهوراً</button>

@@ -10,6 +10,7 @@ using DatingApp.API.Data;
 using DatingApp.API.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,8 +41,10 @@ namespace DatingApp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options => 
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(options =>  options
+            .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            .ConfigureWarnings(warnings=>warnings.Ignore(CoreEventId.IncludeIgnoredWarning))
+            );
 
             IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
@@ -133,6 +136,16 @@ namespace DatingApp.API
             //seeder.SeedUsers();
             app.UseCors(x => x.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader().AllowCredentials()); 
             app.UseAuthentication();
+            app.UseDefaultFiles();
+             app.Use(async(context,next) =>{
+                await next();
+                if(context.Response.StatusCode== 404){
+                    context.Request.Path="/index.html";
+                    await next();
+                }
+                
+            });
+            app.UseStaticFiles();
             app.UseSignalR(routes => {
               routes.MapHub<ChatHub>("/chat");
             });
